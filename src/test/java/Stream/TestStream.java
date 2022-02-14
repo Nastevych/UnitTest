@@ -105,7 +105,7 @@ public class TestStream {
                 new BlogPost("News item 2", "Author 2", BlogPostType.NEWS, 35),
                 new BlogPost("Tech review 2", "Author 1", BlogPostType.REVIEW, 15));
         // when
-        Map<BlogPostType, List<BlogPost>> postsPerType = posts.stream().collect(Collectors.groupingBy(BlogPost::getType));
+        Map<BlogPostType, List<BlogPost>> postsPerType = posts.stream().collect(Collectors.groupingBy(e -> e.getType()));
         // then
         assertThat(postsPerType.get(BlogPostType.NEWS).size()).isEqualTo(2);
         assertThat(postsPerType.get(BlogPostType.GUIDE).size()).isEqualTo(1);
