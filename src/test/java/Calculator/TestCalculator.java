@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class TestCalculator {
     private Calculator calculator;
@@ -27,7 +28,7 @@ public class TestCalculator {
     }
 
     @ParameterizedTest
-    @DisplayName("Test of operations")
+    @DisplayName("Positive Test of Operations using MethodSource")
     @MethodSource("provideValidData")
     void testOperations (double firstNumber, double secondNumber, String operation,  String expectedResult) {
         //WHEN
@@ -47,13 +48,32 @@ public class TestCalculator {
     }
 
     @ParameterizedTest
-    @DisplayName("Test of operations in Csv")
+    @DisplayName("Positive Test of Operations using CSV")
     @CsvFileSource (resources = "/testCalculatorData.csv", delimiter = ':')
     void testOperationsCsv(double firstNumber, double secondNumber, String operation,  String expectedResult){
         //WHEN
         String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
         //THEN
         assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @DisplayName("Positive Test of Sum using ValueSource")
+    @ValueSource(doubles = {1, 100, Integer.MAX_VALUE})
+    void testSumValueSource(double firstNumber){
+        //GIVEN
+        double secondNumber = 55;
+        String operation = "+";
+        String expectedResult = prepareExpectedResult(firstNumber, secondNumber);
+        //WHEN
+        String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
+        //THEN
+        assertEquals(expectedResult, actualResult);
+        }
+    private String prepareExpectedResult(double firstNumber, double secondNumber) {
+        double expectedResultDouble = firstNumber + secondNumber;
+        String expectedResult = String.format("%1$,.2f", expectedResultDouble);
+        return expectedResult;
     }
 
 
