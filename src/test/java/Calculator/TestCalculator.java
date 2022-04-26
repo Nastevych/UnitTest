@@ -64,14 +64,91 @@ public class TestCalculator {
         //GIVEN
         double secondNumber = 55;
         String operation = "+";
-        String expectedResult = prepareExpectedResult(firstNumber, secondNumber);
+        String expectedResult = prepareExpectedResult(firstNumber, secondNumber, operation);
         //WHEN
         String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
         //THEN
         assertEquals(expectedResult, actualResult);
         }
-    private String prepareExpectedResult(double firstNumber, double secondNumber) {
-        double expectedResultDouble = firstNumber + secondNumber;
+
+    @ParameterizedTest
+    @DisplayName("Positive Test of Minus using ValueSource")
+    @ValueSource(doubles = {1, 100, Integer.MAX_VALUE})
+    void testMinusValueSource(double firstNumber){
+        //GIVEN
+        double secondNumber = 55;
+        String operation = "-";
+        String expectedResult = prepareExpectedResult(firstNumber, secondNumber, operation);
+        //WHEN
+        String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
+        //THEN
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @DisplayName("Positive Test of Multiply using ValueSource")
+    @ValueSource(doubles = {1, 100, Integer.MAX_VALUE})
+    void testMultiplyValueSource(double firstNumber){
+        //GIVEN
+        double secondNumber = 55;
+        String operation = "*";
+        String expectedResult = prepareExpectedResult(firstNumber, secondNumber, operation);
+        //WHEN
+        String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
+        //THEN
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @DisplayName("Positive Test of Divide using ValueSource")
+    @ValueSource(doubles = {1, 100, Integer.MAX_VALUE})
+    void testDivideValueSource(double firstNumber){
+        //GIVEN
+        double secondNumber = 55;
+        String operation = "/";
+        String expectedResult = prepareExpectedResult(firstNumber, secondNumber, operation);
+        //WHEN
+        String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
+        //THEN
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @DisplayName("Positive Test of Pow using ValueSource")
+    @ValueSource(doubles = {1, 100, Integer.MAX_VALUE})
+    void testPowValueSource(double firstNumber){
+        //GIVEN
+        double secondNumber = 5;
+        String operation = "^";
+        String expectedResult = prepareExpectedResult(firstNumber, secondNumber, operation);
+        //WHEN
+        String actualResult = calculator.calculate(firstNumber, secondNumber, operation);
+        //THEN
+        assertEquals(expectedResult, actualResult);
+    }
+
+    private String prepareExpectedResult(double firstNumber, double secondNumber, String operation) {
+        double expectedResultDouble;
+        switch (operation) {
+            case "+":
+                expectedResultDouble = firstNumber + secondNumber;
+                break;
+            case "-":
+                expectedResultDouble = firstNumber - secondNumber;
+                break;
+            case "*":
+                expectedResultDouble = firstNumber * secondNumber;
+                break;
+            case "/":
+                    expectedResultDouble = firstNumber / secondNumber;
+                break;
+            case "^":
+                expectedResultDouble = Math.pow(firstNumber, secondNumber);
+                break;
+            default:
+                expectedResultDouble = 0;
+                break;
+        }
         String expectedResult = String.format("%1$,.2f", expectedResultDouble);
         return expectedResult;
     }
